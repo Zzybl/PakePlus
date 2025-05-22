@@ -514,6 +514,7 @@ import {
     fileSizeLimit,
     oneMessage,
     createIssue,
+    checkLastPublish,
 } from '@/utils/common'
 import { platform } from '@tauri-apps/plugin-os'
 import { getCurrentWindow } from '@tauri-apps/api/window'
@@ -1248,7 +1249,6 @@ const preview = async (resize: boolean) => {
                             : store.currentProject.url,
                     },
                     jsContent: initJsScript,
-                    injectjq: store.currentProject.injectJq,
                     devbug: store.currentProject.devbug,
                 })
             } else {
@@ -1452,6 +1452,9 @@ const publishWeb = async () => {
     if (store.token === '') {
         oneMessage.error(t('configToken'))
         return
+    } else if (checkLastPublish()) {
+        oneMessage.error(t('limitProject'))
+        return
     }
     centerDialogVisible.value = false
     buildLoading.value = true
@@ -1484,7 +1487,7 @@ const publishWeb = async () => {
             store.currentProject.name,
             store.currentProject.showName,
             store.currentProject.isHtml,
-            'PakePlus publish action error',
+            'PakePlus publish action error ' + error.message,
             'failure',
             'build error',
             'PakePlus'
@@ -1509,8 +1512,17 @@ const dispatchAction = async () => {
         const message = dispatchRes.data
             ? dispatchRes.data.message
             : dispatchRes.status
-        warning.value = t('dispatchError') + ':' + message
+        warning.value = t('dispatchError') + ': ' + message
         oneMessage.error(warning.value)
+        createIssue(
+            store.currentProject.name,
+            store.currentProject.showName,
+            store.currentProject.isHtml,
+            'PakePlus dispatch error ' + message,
+            'failure',
+            'build error',
+            'PakePlus'
+        )
         buildLoading.value = false
         return
     } else {
@@ -1595,6 +1607,8 @@ const checkBuildStatus = async () => {
     console.log('checkBuildStatus', build_runs)
     if (checkRes.status === 200 && checkRes.data.total_count > 0) {
         if (status === 'completed' && conclusion === 'success') {
+            const now = new Date()
+            localStorage.setItem('lastClickTime', now.toISOString())
             createIssue(
                 store.currentProject.name,
                 store.currentProject.showName,

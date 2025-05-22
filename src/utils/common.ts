@@ -1006,6 +1006,8 @@ export const copyText = async (text: string) => {
 export const loadingText = (text: string) => {
     if (document.querySelector('.el-loading-text')) {
         document.querySelector('.el-loading-text')!.innerHTML = text
+    } else {
+        console.log('no loading')
     }
 }
 
@@ -1117,4 +1119,31 @@ export const createIssue = async (
         build action: ${url}`,
         title: title,
     })
+}
+
+// check last publish date
+export const checkLastPublish = () => {
+    const savedTime = localStorage.getItem('lastClickTime')
+    if (!savedTime) return false
+    const now = new Date()
+    const oneHourAfterClick = new Date(savedTime)
+    oneHourAfterClick.setHours(oneHourAfterClick.getHours() + 1)
+    return now < oneHourAfterClick
+}
+
+// check update
+export const isNow = (v1: string, v2: string) => {
+    const parts1 = v1.split('.').map(Number)
+    const parts2 = v2.split('.').map(Number)
+    const maxLength = Math.max(parts1.length, parts2.length)
+    for (let i = 0; i < maxLength; i++) {
+        const num1 = parts1[i] || 0
+        const num2 = parts2[i] || 0
+        if (num1 > num2) {
+            return true
+        } else if (num1 < num2) {
+            return false
+        }
+    }
+    return false
 }

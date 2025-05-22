@@ -1,3 +1,13 @@
+# 问题自查
+
+如果有遇到问题，自查往往更有效果。
+
+1. 到 PP issue 中自查，往往有效果：https://github.com/Sjj1024/PakePlus/issues
+2. 检查自己是否修改过配置或脚本文件，用最原始的配置试试
+3. 检查 token 权限是否给正确了，或者重新填写 token 再试试
+4. 是否有在群里咨询过，没有的话，先在群里问问试试，[进群交流](../exchange/index.md)
+5. 网络问题请检查是否使用了代理或者云电脑等，可以尝试切换网络试试。
+
 # mac 应用已随坏
 
 ![](../static/imgs/macerror.png)
@@ -17,9 +27,25 @@ sudo xattr -r -d com.apple.quarantine /Applications/PakePlus.app
 sudo xattr -r -d com.apple.quarantine /Applications/你的软件名称.app
 ```
 
-# 发布失败问题自查
+# 无法拖拽文件或元素拖动
 
--   检查 token 权限是否给正确了，
--   token 重新填写再试试
--   用最原始的配置打包是否成功
--   是否做了更多配置的操作或脚本操作
+原因：[https://v2.tauri.app/reference/config/#dragdropenabled](https://v2.tauri.app/reference/config/#dragdropenabled)  
+解决办法  
+在更多配置中，关闭 dragDropEnabled 选项即可
+
+
+# 打包后白屏或报错
+
+打一个测试包，然后右键检查元素看一下是否有报错，有报错根据报错信息解决即可。
+如果看不懂报错信息或无法解决，可以进群交流。推荐可以试试deepseek是否可以帮你解决问题。
+
+# 窗口置顶
+
+在更多配置中，开启 alwaysOnTop 即可
+
+# 全屏模式
+
+在更多配置中，开启 fullscreen 即可
+
+
+# 

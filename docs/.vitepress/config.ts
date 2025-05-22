@@ -85,7 +85,7 @@ export default defineConfig({
                         },
                     ],
                     '/question/': [
-                        { text: '应用已损坏', link: '/question/' },
+                        { text: '常见问题', link: '/question/' },
                         { text: '使用限制', link: '/question/limit' },
                         { text: 'Token无效', link: '/question/invalid' },
                         { text: '项目已存在', link: '/question/exist' },
@@ -255,7 +255,20 @@ export default defineConfig({
             },
         },
     },
-    head: [['link', { rel: 'icon', href: './app.svg' }]],
+    head: [
+        ['link', { rel: 'icon', href: './app.svg' }],
+        [
+            'script',
+            {},
+            `var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?63127d959845e83b472b4316ecda1e14";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+            })();`,
+        ],
+    ],
     themeConfig: {
         search: {
             provider: 'local',
